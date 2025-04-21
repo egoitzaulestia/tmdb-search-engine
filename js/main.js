@@ -3,15 +3,12 @@
 
 // 1.Buscador de peliculas
 
-// Investiga y utiliza la api de Películas MovieDB :
-//    - Registrate en la web.
-//    - Generar una API KEY
-//TODO: - Crear un buscador de peliculas atacando a la API que contenga:
-//        - Input para escribir la película
-//TODO:         - Muestre las películas con:
-//TODO:             - Imagen
-//TODO:             - Título
-//TODO:             - Descripción
+//  Crear un buscador de peliculas atacando a la API que contenga:
+//  - Input para escribir la película
+//  - Muestre las películas con:
+//     - Imagen
+//     - Título
+//     - Descripción
 
 // Extras
 // Muestra el género de las películas
@@ -20,15 +17,12 @@
 // We capture elements from the DOM
 const formData = document.getElementById('formData');
 const searchInput = document.getElementById('searchInput');
-const containerMovies = document.getElementById('containerMovies');
+const sectionMovies = document.getElementById('containerMovies');
 
 const searchAndShowTheMovie = (e) => {
   e.preventDefault()
 
   containerMovies.innerHTML = '';
-
-  console.log(searchInput.value)
-
   const movieSearch = searchInput.value
 
   axios.get(`/search/movie`, { 
@@ -38,15 +32,31 @@ const searchAndShowTheMovie = (e) => {
       }
     })
     .then(response => { 
-  
-      const movies =response.data.results
-      console.log(movies)
-  
-      movies.forEach(movie => {
-        const posterUrl = `https://image.tmdb.org/t/p/w300${movie.poster_path}`;
-  
-  
+      const movies = response.data.results
+
+      renderMovies(movies);
+    })
+
+  searchInput.value = '';
+}
+
+// Function to render all the movies of the search
+// 1. we pass the searched data array as an argument.
+// 2. we iterate the array and we call to createMovieCard() function.
+const renderMovies = (movies) => {
+  movies.forEach(movie => {    
+    createMovieCard(movie)    
+  });
+}
+
+const createMovieCard = (movie) => {
+      const posterUrl = movie.poster_path 
+        ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+        : 'placeholder.jpg'; // Fallback if no poster
+
       // DOM content creation (HTML)
+      const movieCard = document.createElement('div');
+      
       const moviePoster = document.createElement('img');
       moviePoster.setAttribute('src', posterUrl);
       moviePoster.setAttribute('alt', `${movie.title} poster`);
@@ -54,15 +64,36 @@ const searchAndShowTheMovie = (e) => {
       const movieTitle = document.createElement('h1');
       movieTitle.textContent = `${movie.title}`;
   
-      containerMovies.appendChild(moviePoster);
-      containerMovies.appendChild(movieTitle);
-        
-      });
-  
-    })
+      movieCard.append(moviePoster, movieTitle);
 
-  searchInput.value = '';
+      sectionMovies.appendChild(movieCard);
 }
+
+
+const options = {
+  method: 'GET',
+  headers: {
+    accept: 'application/json',
+    Authorization: `Bearer ${CONFIG.TMDB_AUTHORIZATION_TOKEN}`
+  }
+};
+
+fetch(`https://api.themoviedb.org/3/genre/movie/list`, options)
+  .then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+
+  html = "";
+  obj = {
+      "1" : "Name",
+      "2": "Age",
+      "3" : "Gender"
+  }
+  for(var key in obj) {
+      html += "<option value=" + key  + ">" +obj[key] + "</option>"
+  }
+  document.getElementById("movieGenre").innerHTML = html;
 
 //TODO: NEXT STEPS
 // MODULARIZACIÓN: searchMovie() ——> showMovie()
@@ -199,18 +230,7 @@ const searchAndShowTheMovie = (e) => {
 // });
 
 
-const options = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization: `Bearer ${CONFIG.TMDB_AUTHORIZATION_TOKEN}`
-  }
-};
 
-fetch(`https://api.themoviedb.org/3/genre/movie/list`, options)
-  .then(res => res.json())
-  .then(res => console.log(res))
-  .catch(err => console.error(err));
 
 
 
