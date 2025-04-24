@@ -4,24 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TMDB Search Engine</title>
+    <link rel="stylesheet" href="css/styles.css">
     <script src="https://unpkg.com/axios/dist/axios.min.js" defer></script>
     <script src="./js/config.js" defer></script>
     <script src="./js/main.js" defer></script>
 </head>
 <body>
     <h1>TMDB Search Engine</h1>
-    <form id="formData">
-        <input type="search" name="searchInput" id="searchInput" placeholder="Search for a movie...">
-        <button type="submit">Search</button>
-        <select name="movieGenre" id="movieGenre">
-            <option value="">-- Select a genre --</option>
-        </select>
+    <form id="formData" role="search" aria-label="Movie search form">
+        <div class="search-group">
+            <label for="searchInput" class="visually-hidden">Search movies</label>
+            <input type="search" name="searchInput" id="searchInput" placeholder="Search for a movie..." aria-label="Search movies">
+            <button type="submit" aria-label="Search">
+                <span class="visually-hidden">Search</span>
+                🔍
+            </button>
+        </div>
+        <br>
+        <div class="filter-group">
+            <label for="movieGenre">Filter by genre:</label>
+            <select name="movieGenre" id="movieGenre" aria-label="Select movie genre">
+                <option value="">-- Select a genre --</option>
+            </select>
+        </div>
     </form>
     <br>
-    <!-- <select name="movieGenre" id="movieGenre"></select> -->
-
-    <section id="containerMovies"></section>
-
-
+    <section id="containerMovies" aria-label="Movie results"></section>
 </body>
 </html>

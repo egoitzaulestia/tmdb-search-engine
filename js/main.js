@@ -117,4 +117,5 @@ const loadGenres = async () => {
 loadGenres()
 
 
-formData.addEventListener('change', searchAndShowTheMovie)
+formData.addEventListener('submit', searchAndShowTheMovie);
+genreSelect.addEventListener('change', searchAndShowTheMovie);
