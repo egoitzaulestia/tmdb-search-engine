@@ -1,19 +1,6 @@
 // main.js //
 ////////////
 
-// 1.Buscador de peliculas
-
-//  Crear un buscador de peliculas atacando a la API que contenga:
-//  - Input para escribir la película
-//  - Muestre las películas con:
-//     - Imagen
-//     - Título
-//     - Descripción
-
-// Extras
-// Muestra el género de las películas
-
-
 // We capture elements from the DOM
 const formData = document.getElementById('formData');
 const searchInput = document.getElementById('searchInput');
